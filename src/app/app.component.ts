@@ -1,5 +1,6 @@
 import { Component, VERSION } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { filter, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'my-app',
@@ -8,10 +9,32 @@ import { FormControl } from '@angular/forms';
 })
 export class AppComponent {
   name = new FormControl('');
+  isTimerRunning = false;
+  prevValue = '';
+  timer;
+  onInputChange() {
+    if (!this.isTimerRunning) {
+      this.timer = setTimeout(() => {
+        this.isTimerRunning = false;
+        clearTimeout(this.timer);
+        if (this.name.value.length > 3 && this.prevValue !== this.name.value) {
+          this.prevValue = this.name.value;
+          console.log(this.name.value);
+        }
+      }, 300);
+      this.isTimerRunning = true;
+    }
+  }
 
   ngAfterViewInit() {
-    this.name.valueChanges.subscribe(val => {
-      console.log(val);
-    });
+    // this.name.valueChanges
+    //   .pipe(
+    //     debounceTime(300),
+    //     distinctUntilChanged(),
+    //     filter(val => val.length > 3)
+    //   )
+    //   .subscribe(val => {
+    //     console.log(val);
+    //   });
   }
 }
