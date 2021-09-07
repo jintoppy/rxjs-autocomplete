@@ -13,17 +13,16 @@ export class AppComponent {
   prevValue = '';
   timer;
   onInputChange() {
-    if (!this.isTimerRunning) {
-      this.timer = setTimeout(() => {
-        this.isTimerRunning = false;
-        clearTimeout(this.timer);
-        if (this.name.value.length > 3 && this.prevValue !== this.name.value) {
-          this.prevValue = this.name.value;
-          console.log(this.name.value);
-        }
-      }, 300);
-      this.isTimerRunning = true;
-    }
+    // if (!this.isTimerRunning) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      // this.isTimerRunning = false;
+      if (this.name.value.length > 3 && this.prevValue !== this.name.value) {
+        this.prevValue = this.name.value;
+        console.log(this.name.value);
+      }
+    }, 300);
+    // this.isTimerRunning = true;
   }
 
   ngAfterViewInit() {
